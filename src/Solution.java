@@ -1,3 +1,4 @@
+import java.math.BigInteger;
 import java.util.Arrays;
 
 public class Solution {
@@ -5,21 +6,21 @@ public class Solution {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         System.out.println("real value of l1 ==>" + getRealValue(l1));
         System.out.println("real value of l2 ==>" + getRealValue(l2));
-        long l1Val = getRealValue(l1);
-        long l2Val = getRealValue(l2);
-        long sum = l1Val + l2Val;
+        BigInteger l1Val = getRealValue(l1);
+        BigInteger l2Val = getRealValue(l2);
+        BigInteger sum = l1Val.add(l2Val);
 
         System.out.println("sum ==>" + sum);
         StringBuilder reversedSumStr = new StringBuilder();
-        long tempSum = sum;
+        BigInteger tempSum = sum;
 
-        if (sum == 0) {
+        if (sum.equals(BigInteger.ZERO)) {
             reversedSumStr.append(0);
         } else {
-            while (tempSum > 0) {
-                long remainder = tempSum % 10;
+            while (tempSum.compareTo(BigInteger.ZERO) > 0) {
+                BigInteger remainder = tempSum.remainder(BigInteger.valueOf(10));
                 reversedSumStr.append(remainder);
-                tempSum = tempSum / 10;
+                tempSum = tempSum.divide(BigInteger.valueOf(10));
             }
         }
 
@@ -45,19 +46,20 @@ public class Solution {
         return head;
     }
 
-    public static long getRealValue(ListNode head) {
+    public static BigInteger getRealValue(ListNode head) {
         int count = 0;
-        ListNode current  = head;
-        long realVall1 = 0;
-        while ( current != null) {
-            realVall1 = realVall1 + getValue(count, current.val);
+        ListNode current = head;
+        BigInteger realVall1 = BigInteger.ZERO;
+        while (current != null) {
+            realVall1 = realVall1.add(getValue(count, current.val));
             count++;
             current = current.next;
         }
         return realVall1;
     }
 
-    public static long getValue(int count, long val) {
-        return (long) (val * Math.pow(10, count));
+    public static BigInteger getValue(int count, int val) {
+        // Use BigInteger.valueOf and BigInteger.TEN.pow for integer power of 10
+        return BigInteger.valueOf(val).multiply(BigInteger.TEN.pow(count));
     }
 }
